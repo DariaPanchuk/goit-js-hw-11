@@ -1,37 +1,35 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
-import { getImg } from "./js/getImg";
+import { imgApiService } from "./js/getImg";
 import { renderImgInfo } from "./js/renderHTML";
 
 let getEl = selector => document.querySelector(selector);
 
-async function getImg(search) {
-    try {
-        const response = await axios.get('https://pixabay.com/api/', {
-            params: {
-                key: "31440578-d40e7eed5873a4f1028e16656",
-                q: search,
-                image_type: "photo",
-                orientation: "horizontal",
-                safesearch: true,
-                per_page: 40,
-                page: 1,
-            }
-        })
-        return await responce;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 getEl('.search-form').addEventListener('submit', onSearch);
+
+getEl('.load-more').addEventListener('click', onLoadMore);
+
+const imgApi = new imgApiService();
+console.log(imgApi);
 
 function onSearch(e) {
     e.preventDefault();
-    const inputData = e.currentTarget.elements.searchQuery.value;
-    // if (inputData === "") {
-    //     return clearInput();
-    // }
-    getImg(inputData).then(renderImgInfo).catch(error => console.log(error));
+    imgApi.query = e.currentTarget.elements.searchQuery.value;
+    imgApi.resetPage();
+    imgApi.getImage();
+    renderGallery();
+}
+
+function onLoadMore() {
+    imgApi.page += 1;
+    imgApi.getImage();
+}
+
+function renderGallery(data) {
+    const promise = imgApi.getImage();
+    promise.then(data => data.hits);
+    .then(data.hits => data.hits.array);
+
+    // getEl('.gallery').innerHTML = renderImgInfo(data.hits);
 }
