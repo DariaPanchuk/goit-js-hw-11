@@ -52,6 +52,6 @@ function onLoadMore() {
     imgApi.getImage();
 }
 
-function renderGallery() {
+function renderGallery(hits) {
     
 }

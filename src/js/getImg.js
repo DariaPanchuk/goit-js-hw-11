@@ -18,9 +18,13 @@ class imgApiService {
                 per_page: 40,
                 page: this.page,
             }
-        })
-        console.log("-> response", response);
-        return await response;
+        }).then(response => { 
+        response.data
+        response.data.hits
+        }).then (array => array.json())
+        console.log(array);
+        // console.log("-> response", response);
+        // return await response;
     } catch (error) {
         console.log(error);
     }
