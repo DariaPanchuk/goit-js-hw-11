@@ -8,7 +8,7 @@ class imgApiService {
 
     async getImage() {
     try {
-        const response = await axios.get('https://pixabay.com/api/', {
+        return await axios.get('https://pixabay.com/api/', {
             params: {
                 key: "31440578-d40e7eed5873a4f1028e16656",
                 q: this.searchQuery,
@@ -19,14 +19,16 @@ class imgApiService {
                 page: this.page,
             }
         }).then(response => { 
-        response.data
-        response.data.hits
-        }).then (array => array.json())
-        console.log(array);
+            console.log("-> response", response);
+            return response.data;
+        }).then(data => {
+            console.log("-> data", data);
+        })
         // console.log("-> response", response);
         // return await response;
     } catch (error) {
         console.log(error);
+        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     }
     }
     

@@ -13,45 +13,27 @@ getEl('.load-more').addEventListener('click', onLoadMore);
 const imgApi = new imgApiService();
 console.log(imgApi);
 
+
 function onSearch(e) {
     e.preventDefault();
     imgApi.query = e.currentTarget.elements.searchQuery.value;
     imgApi.resetPage();
     imgApi.getImage().then(data => {
-        const cards = data.data.hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-            return `
-        <div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-        <div class="info">
-            <p class="info-item">
-            <b>Likes</b>
-            ${likes}
-            </p>
-            <p class="info-item">
-            <b>Views</b>
-            ${views}
-            </p>
-            <p class="info-item">
-            <b>Comments</b>
-            ${comments}
-            </p>
-            <p class="info-item">
-            <b>Downloads</b>
-            ${downloads}
-            </p>
-        </div>
-        </div>
-        `
-        }).join('')
-        getEl('.gallery').insertAdjacentHTML('beforeend', cards)
+        if (data.totalHits > 0) {
+            getEl('.gallery').insertAdjacentHTML('beforeend', renderImgInfo(data.hits));
+            // lightbox.refresh();
+            Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        } else {
+            Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
+        }
+    }).catch(error => {
+        console.log(error);
+        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     })
 }
+
 
 function onLoadMore() {
     imgApi.page += 1;
     imgApi.getImage();
-}
-
-function renderGallery(hits) {
-    
 }
