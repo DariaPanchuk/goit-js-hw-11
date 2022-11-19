@@ -25,4 +25,13 @@ async function getImg(search) {
     }
 }
 
-console.log(await getImg(god));
+getEl('.search-form').addEventListener('submit', onSearch);
+
+function onSearch(e) {
+    e.preventDefault();
+    const inputData = e.currentTarget.elements.searchQuery.value;
+    // if (inputData === "") {
+    //     return clearInput();
+    // }
+    getImg(inputData).then(renderImgInfo).catch(error => console.log(error));
+}
