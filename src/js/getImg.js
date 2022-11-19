@@ -19,7 +19,7 @@ class imgApiService {
                 page: this.page,
             }
         })
-        // console.log("-> response", response);
+        console.log("-> response", response);
         return await response;
     } catch (error) {
         console.log(error);

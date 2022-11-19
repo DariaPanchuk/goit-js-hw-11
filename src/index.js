@@ -17,8 +17,34 @@ function onSearch(e) {
     e.preventDefault();
     imgApi.query = e.currentTarget.elements.searchQuery.value;
     imgApi.resetPage();
-    imgApi.getImage();
-    renderGallery();
+    imgApi.getImage().then(data => {
+        const cards = data.data.hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+            return `
+        <div class="photo-card">
+        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        <div class="info">
+            <p class="info-item">
+            <b>Likes</b>
+            ${likes}
+            </p>
+            <p class="info-item">
+            <b>Views</b>
+            ${views}
+            </p>
+            <p class="info-item">
+            <b>Comments</b>
+            ${comments}
+            </p>
+            <p class="info-item">
+            <b>Downloads</b>
+            ${downloads}
+            </p>
+        </div>
+        </div>
+        `
+        }).join('')
+        getEl('.gallery').insertAdjacentHTML('beforeend', cards)
+    })
 }
 
 function onLoadMore() {
@@ -26,10 +52,6 @@ function onLoadMore() {
     imgApi.getImage();
 }
 
-function renderGallery(data) {
-    const promise = imgApi.getImage();
-    promise.then(data => data.hits);
-    .then(data.hits => data.hits.array);
-
-    // getEl('.gallery').innerHTML = renderImgInfo(data.hits);
+function renderGallery() {
+    
 }
