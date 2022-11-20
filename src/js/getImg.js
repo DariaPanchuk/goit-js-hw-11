@@ -20,14 +20,10 @@ class imgApiService {
                 page: this.page,
             }
         }).then(response => { 
-            console.log("-> response", response);
             return response.data;
         }).then(data => {
-            console.log("-> data", data);
             return data;
         })
-        // console.log("-> response", response);
-        // return await response;
     } catch (error) {
         console.log(error);
         Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
