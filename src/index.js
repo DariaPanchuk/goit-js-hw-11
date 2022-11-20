@@ -24,7 +24,10 @@ function onSearch(e) {
         getEl('.gallery').innerHTML = "";
         getEl('.load-more').classList.add('is-hidden');
     }
-    imgApi.getImage().then(renderGallery).catch(error => {
+    imgApi.getImage().then(data => {
+        imgApi.totalHits = data.totalHits;
+        renderGallery(data);
+    }).catch(error => {
         console.log(error);
         Notiflix.Notify.warning("Sorry, there are no images matching your search query. Please try again.");
     })
@@ -34,6 +37,7 @@ function onLoadMore(e) {
     e.preventDefault();
     imgApi.page += 1;
     imgApi.decreaseTotalHits();
+    console.log(imgApi.totalHits);
     if (imgApi.totalHits <= 40) {
         getEl('.load-more').style.visibility = "hidden";
         Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")

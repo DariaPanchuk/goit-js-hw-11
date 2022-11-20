@@ -47,8 +47,8 @@ class imgApiService {
     }
 
     decreaseTotalHits() {
-    this.totalHits = this.totalHits - 40
-}
+        this.totalHits = this.totalHits - 40;
+    }
 }
 
 
