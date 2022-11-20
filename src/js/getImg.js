@@ -4,6 +4,7 @@ class imgApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
+        this.totalHits = null;
     }
 
     async getImage() {
@@ -23,6 +24,7 @@ class imgApiService {
             return response.data;
         }).then(data => {
             console.log("-> data", data);
+            return data;
         })
         // console.log("-> response", response);
         // return await response;
@@ -43,6 +45,10 @@ class imgApiService {
     resetPage() {
         this.page = 1;
     }
+
+    decreaseTotalHits() {
+    this.totalHits = this.totalHits - 40
+}
 }
 
 
