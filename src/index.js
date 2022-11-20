@@ -61,7 +61,7 @@ function renderGalleryAgain(data) {
 }
 
 function renderGallery(data) {
-    if (data.totalHits < 40) {
+    if (data.totalHits < 40 && data.totalHits !== 0) {
         getEl('.gallery').insertAdjacentHTML('beforeend', renderImgInfo(data.hits));
         lightbox.refresh();
         return Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
